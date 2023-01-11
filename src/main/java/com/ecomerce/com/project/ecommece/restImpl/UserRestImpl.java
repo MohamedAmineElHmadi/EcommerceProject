@@ -20,9 +20,10 @@ public class UserRestImpl implements UserRest {
     public ResponseEntity<String> SignUp(Map<String, String> requestMap) {
         try{
             return userService.signup(requestMap);
-        }catch (Exception ex){
+             }
+        catch (Exception ex){
             ex.printStackTrace();
-        }
+             }
         return EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

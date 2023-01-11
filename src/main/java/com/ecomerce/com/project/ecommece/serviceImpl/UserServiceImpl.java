@@ -22,19 +22,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<String> signup(Map<String, String> requestMap) {
         log.info("Inside signup {}",requestMap);
-        try{if (validateSignUpMap(requestMap)){
-            User user=userDao.findByEmailId(requestMap.get("email"));
-                    if(Objects.isNull(user)){
-                        userDao.save(getUserFromMap(requestMap));
-                        return EcomUtils.getResponseEntity("Successfully Registered",HttpStatus.OK);
-                    }
-                    else  {
-                        return  EcomUtils.getResponseEntity("Email Already Exist",HttpStatus.BAD_REQUEST);
-                    }
+        try{
+                if (validateSignUpMap(requestMap))
+                {
+                User user=userDao.findByEmailId(requestMap.get("email"));
+                        if(Objects.isNull(user)){
+                            userDao.save(getUserFromMap(requestMap));
+                            return EcomUtils.getResponseEntity("Successfully Registered",HttpStatus.OK);
+                        }
+                        else  {
+                            return  EcomUtils.getResponseEntity("Email Already Exist",HttpStatus.BAD_REQUEST);
+                        }
+                 }
+            else {
+                return EcomUtils.getResponseEntity(EcomConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
+                 }
         }
-        else {
-            return EcomUtils.getResponseEntity(EcomConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
-        }}
         catch (Exception ex){
             ex.printStackTrace();
         }
