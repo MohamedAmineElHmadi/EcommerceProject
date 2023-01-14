@@ -1,6 +1,7 @@
 package com.ecomerce.com.project.ecommece.JWT;
 
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @Component
 public class JwtFilter extends OncePerRequestFilter {
     @Autowired
@@ -34,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
          String authorizationHeader= httpServletRequest.getHeader("Authorization");
          String token=null;
 
-         if (authorizationHeader!=null && authorizationHeader.startsWith("Baerer "))
+         if (authorizationHeader!=null && authorizationHeader.startsWith("Bearer "))
          {
              token = authorizationHeader.substring(7);
              userName= jwtUtil.extractUsername(token);
