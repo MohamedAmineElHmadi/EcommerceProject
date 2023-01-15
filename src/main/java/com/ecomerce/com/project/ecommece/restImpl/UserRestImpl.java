@@ -67,4 +67,17 @@ public class UserRestImpl implements UserRest {
         }
         return EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @Override
+    public ResponseEntity<String> checkToken() {
+        try{
+            return userService.checkToken();
+
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

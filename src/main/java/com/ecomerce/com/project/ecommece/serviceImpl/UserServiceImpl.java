@@ -157,6 +157,13 @@ public class UserServiceImpl implements UserService {
         return  EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return  EcomUtils.getResponseEntity("true",HttpStatus.OK);
+
+
+    }
+
     private void sendMailToAllAdmin(String status, String user, List<String> allAdmin) {
 
         allAdmin.remove(jwtFilter.getCurrentUser());
