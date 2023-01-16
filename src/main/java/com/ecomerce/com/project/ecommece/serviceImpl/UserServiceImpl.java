@@ -10,6 +10,7 @@ import com.ecomerce.com.project.ecommece.service.UserService;
 import com.ecomerce.com.project.ecommece.utils.EcomUtils;
 import com.ecomerce.com.project.ecommece.utils.EmailUtils;
 import com.ecomerce.com.project.ecommece.wrapper.UserWrapper;
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -161,6 +162,45 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<String> checkToken() {
         return  EcomUtils.getResponseEntity("true",HttpStatus.OK);
 
+
+    }
+
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+    try{
+        User userObj= userDao.findByEmail(jwtFilter.getCurrentUser());
+        if (!userObj.equals(null)) {
+            if(userObj.getPassword().equals(requestMap.get("oldPassword"))){
+                userObj.setPassword(requestMap.get("newPassword"));
+                userDao.save(userObj);
+                return EcomUtils.getResponseEntity("Password updated",HttpStatus.OK);
+
+            }
+            return EcomUtils.getResponseEntity("Incorrect old password",HttpStatus.BAD_REQUEST);
+        }
+        return EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+    catch (Exception ex)
+    {
+        ex.printStackTrace();
+    }
+        return  EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+    try{
+       User user= userDao.findByEmail(requestMap.get("email"));
+       if (!Objects.isNull(user)&& !Strings.isNullOrEmpty(user.getEmail()))
+           emailUtils.forgotMail(user.getEmail(),"Credentials by Ecommerce app",user.getPassword());
+           return EcomUtils.getResponseEntity("Check your mail Credentials",HttpStatus.OK);
+    }
+    catch (Exception ex)
+    {
+        ex.printStackTrace();
+    }
+        return  EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 

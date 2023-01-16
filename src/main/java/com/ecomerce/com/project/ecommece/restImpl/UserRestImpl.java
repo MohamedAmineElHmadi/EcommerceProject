@@ -1,5 +1,6 @@
 package com.ecomerce.com.project.ecommece.restImpl;
 
+import com.ecomerce.com.project.ecommece.POJO.User;
 import com.ecomerce.com.project.ecommece.constants.EcomConstants;
 import com.ecomerce.com.project.ecommece.rest.UserRest;
 import com.ecomerce.com.project.ecommece.service.UserService;
@@ -79,5 +80,24 @@ public class UserRestImpl implements UserRest {
             ex.printStackTrace();
         }
         return EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+     try{
+         return  userService.changePassword(requestMap);
+     }catch (Exception ex)
+     {ex.printStackTrace();}
+        return EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+        try {
+            return userService.forgotPassword(requestMap);
+        }catch (Exception ex)
+        {ex.printStackTrace();}
+        return  EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
