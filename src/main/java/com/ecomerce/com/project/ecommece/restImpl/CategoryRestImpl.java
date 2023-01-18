@@ -5,6 +5,7 @@ import com.ecomerce.com.project.ecommece.constants.EcomConstants;
 import com.ecomerce.com.project.ecommece.rest.CategoryRest;
 import com.ecomerce.com.project.ecommece.service.CategoryService;
 import com.ecomerce.com.project.ecommece.utils.EcomUtils;
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class CategoryRestImpl implements CategoryRest {
     @Override
     public ResponseEntity<List<Category>> getAllCategories(String filterValue) {
         try{
+
            return categoryService.getAllCategory(filterValue);
 
         }
