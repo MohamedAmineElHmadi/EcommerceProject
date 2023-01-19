@@ -84,13 +84,38 @@ public class ProductServiceImpl  implements ProductService {
         return EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> deleteProduct(Integer id) {
+        try{
+            if (jwtFilter.isAdmin()){
+                Optional optional = productDao.findById(id);
+                if(!optional.isEmpty()){
+                    productDao.deleteById(id);
+                    return  EcomUtils.getResponseEntity("Product has been deleted",HttpStatus.OK);
+                }else
+                {
+                    return EcomUtils.getResponseEntity("Product id does not exist",HttpStatus.OK);
+                }
+            } else
+            {
+                EcomUtils.getResponseEntity(EcomConstants.UNAUTHORIZED_ACCESS,HttpStatus.UNAUTHORIZED);
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return EcomUtils.getResponseEntity(EcomConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
     private boolean validateProductMap(Map<String, String> requestMap, boolean validateId) {
         if (requestMap.containsKey("name")) {
             if (requestMap.containsKey("id") && validateId) {
                 return true;
             } else if (!validateId) {
-                return true;
+                EcomUtils.getResponseEntity(EcomConstants.UNAUTHORIZED_ACCESS,HttpStatus.UNAUTHORIZED);
             }
         }
         return false;

@@ -4,10 +4,7 @@ import com.ecomerce.com.project.ecommece.POJO.Product;
 import com.ecomerce.com.project.ecommece.wrapper.ProductWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -19,5 +16,7 @@ public interface ProductRest {
     ResponseEntity<List<ProductWrapper>>getAllProduct();
     @PostMapping(path="update")
     ResponseEntity<String>updateProduct(@RequestBody Map<String,String>requestMap);
+    @PostMapping(path = "/delete/{id}")
+    ResponseEntity<String>deleteProduct(@PathVariable Integer id);
 }
 
